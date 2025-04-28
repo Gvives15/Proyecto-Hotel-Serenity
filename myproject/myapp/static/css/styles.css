@@ -1,0 +1,221 @@
+/* static/css/styles.css */
+
+/* Estilo para el navbar fijo */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+    z-index: 9999;
+}
+
+.navbar.default {
+    background-color: transparent; /* Fondo transparente por defecto */
+    color: white; /* Color del texto por defecto */
+    box-shadow: none;
+}
+
+.navbar.scrolled {
+    background-color: white; /* Fondo blanco al hacer scroll */
+    color: black; /* Color del texto al hacer scroll */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para los enlaces */
+.navbar .nav-link {
+    color: transparent; /* Color transparente por defecto */
+    transition: color 0.3s; /* Transición suave para el color */
+}
+
+.navbar.scrolled .nav-link {
+    color: black; /* Color de los enlaces al hacer scroll */
+}
+
+/* Efecto ::after en el navbar */
+.navbar::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, #6a61be, #7188d4);
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar.scrolled::after {
+    transform: scaleX(1);
+}
+
+/* Estilos para el carrusel */
+.carrusel-container {
+    margin-top: -24px; /* Espacio para el navbar fijo */
+    width: 1220px;
+    position: relative;
+    right: 55px;
+}
+
+.carrusel-imagenes {
+    display: flex; /* Usar flexbox para alinear las imágenes en fila */
+    transition: transform 0.5s ease; /* Transición suave al cambiar de imagen */
+}
+
+/* static/css/styles.css */
+
+/* Estilos para las flechas del carrusel */
+.carrusel {
+    position: relative; /* Necesario para posicionar las flechas */
+}
+
+.carrusel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(252, 252, 252, 0.432); /* Fondo semi-transparente */
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px; /* Tamaño de la flecha */
+    z-index: 10; /* Asegura que las flechas estén por encima de las imágenes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para las flechas */
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+}
+
+.carrusel-btn.prev {
+    left: 10px; /* Posición de la flecha izquierda */
+}
+
+.carrusel-btn.next {
+    right: 10px; /* Posición de la flecha derecha */
+}
+
+.carrusel-btn:hover {
+    background-color: rgba(252, 252, 252, 0.832)
+}
+
+/* Estilos para las imágenes del carrusel */
+.carrusel-imagenes img {
+    width: 100%; /* Las imágenes ocupan el 100% del ancho del carrusel */
+    height: 500px; /* Altura de las imágenes */
+    object-fit: cover; /* Asegura que las imágenes cubran el área sin distorsionarse */
+    display: none; /* Oculta todas las imágenes por defecto */
+    opacity: 0; /* Comienza con opacidad 0 para la animación */
+    transition: opacity 0.5s ease-in-out; /* Transición suave para la opacidad */
+}
+
+.carrusel-imagenes img.active {
+    display: block; /* Muestra solo la imagen activa */
+    opacity: 1; /* Opacidad completa para la imagen activa */
+}
+
+
+
+/* Estilos para las habitaciones */
+.habitaciones {
+    margin-top: 20px;
+}
+
+.habitacion-card {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.habitacion-card img {
+    width: 200px; /* Ancho de la imagen de la habitación */
+    height: 150px; /* Altura de la imagen de la habitación */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+}
+
+.habitacion-info {
+    margin-left: 20px; /* Espacio entre la imagen y la información */
+}
+
+.precio {
+    font-weight: bold; /* Resaltar el precio */
+}
+
+.no-habitaciones {
+    color: red; /* Color para el mensaje de no disponibilidad */
+}
+
+
+/*HABITACIONES-CARRUCEL*//* Estilos para las habitaciones */
+.habitaciones {
+    margin-top: 20px;
+}
+
+.lista-habitaciones {
+    display: flex;
+    flex-direction: column; /* Para que cada habitación esté en una nueva fila */
+}
+
+.habitacion-card {
+    display: flex; /* Usar flexbox para alinear el carrusel y la información */
+    margin-bottom: 20px;
+    background-color: #ffffff; /* Fondo blanco para las tarjetas de habitación */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    overflow: hidden; /* Asegura que el contenido no sobresalga */
+}
+
+.carrusel-container2{
+    width: 50%; /* Ancho del carrusel */
+    position: relative; /* Necesario para posicionar las flechas */
+}
+
+.carrusel-imagenes2 {
+    display: flex; /* Usar flexbox para alinear las imágenes en fila */
+    transition: transform 0.5s ease; /* Transición suave al cambiar de imagen */
+}
+
+.carrusel-imagenes2 img {
+    width: 100%; /* Las imágenes ocupan el 100% del ancho del carrusel */
+    height: 300px; /* Altura de las imágenes del carrusel */
+    object-fit: cover; /* Asegura que las imágenes cubran el área sin distorsionarse */
+    display: none; /* Oculta todas las imágenes por defecto */
+    opacity: 0; /* Comienza con opacidad 0 para la animación */
+    transition: opacity 0.5s ease-in-out; /* Transición suave para la opacidad */
+}
+
+.carrusel-imagenes2 img.active {
+    display: block; /* Muestra solo la imagen activa */
+    opacity: 1; /* Opacidad completa para la imagen activa */
+}
+
+.habitacion-info {
+    width: 50%; /* Ancho de la sección de información */
+    padding: 20px; /* Espacio interno */
+}
+
+.habitacion-info h3 {
+    margin-top: 0; /* Eliminar margen superior */
+}
+
+.amenities {
+    list-style-type: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+}
+
+.amenities li {
+    margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+}
+
+.habitacion-acciones {
+    margin-top: 20px; /* Espacio superior para las acciones */
+}
+
+.btn {
+    background-color: #6a61be; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    padding: 10px 15px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.btn:hover {
+    background-color: #7188d4; /* Color de fondo al pasar el mouse */
+}

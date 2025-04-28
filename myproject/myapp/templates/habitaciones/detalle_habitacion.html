@@ -1,0 +1,64 @@
+<!-- myapp/templates/myapp/detalle_habitacion.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Habitación - {{ habitacion.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Asegúrate de tener tu CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>{{ habitacion.nombre }}</h1>
+        <p><strong>Tipo:</strong> {{ habitacion.tipo }}</p>
+        <p><strong>Descripción:</strong> {{ habitacion.descripcion }}</p>
+
+        <h3>Imágenes de la Habitación:</h3>
+        <div class="imagenes-habitacion">
+            {% for imagen in imagenes %}
+                <div class="imagen-item">
+                    <img src="{{ imagen.imagen.url }}" alt="Imagen de {{ habitacion.nombre }}" style="width: 300px; height: auto;">
+                </div>
+            {% empty %}
+                <p>No hay imágenes disponibles para esta habitación.</p>
+            {% endfor %}
+        </div>
+
+        <h3>Reservar esta Habitación</h3>
+        <a href="{% url 'reservar_habitacion' habitacion.id %}" class="btn btn-primary">Reservar</a>
+
+        <br><br>
+        <a href="{% url 'listar_habitaciones' %}">Volver a la lista de habitaciones</a>
+    </div>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .imagenes-habitacion {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .imagen-item {
+            flex: 1 1 30%; /* Ajusta el tamaño de las imágenes */
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!-- templates/myapp/habitaciones.html -->
+{% extends 'myapp/base.html' %}
+
+{% block title %}Habitaciones{% endblock %}
+
+{% block content %}
+<!-- HTML -->
+{% load static %}
+<div class="carrusel-container">
+    <div class="carrusel">
+        <div class="carrusel-imagenes">
+            <img src="../../static/imagenes/p1_c1.jpg" alt="Imagen 1" class="active">
+            <img src="../../static/imagenes/p2_ba1.jpg" alt="Imagen 2">
+            <img src="../../static/imagenes/p1_b1.jpg" alt="Imagen 3">
+        </div>
+        <button class="carrusel-btn prev" onclick="prevImage()">&#10094;</button>
+        <button class="carrusel-btn next" onclick="nextImage()">&#10095;</button>
+    </div>
+</div>
+<section class="habitaciones">
+    <h2>Nuestras Habitaciones</h2>
+    <div class="lista-habitaciones">
+        {% if habitaciones %}
+            {% for habitacion in habitaciones %}
+                <div class="habitacion-card">
+                    <div class="carrusel-container2">
+                        <div class="carrusel-imagenes2">
+                            {% if habitacion.imagen %}
+                                <img src="{{ habitacion.imagen.url }}" alt="{{ habitacion.descripcion }}" class="active">
+                            {% else %}
+                                <img src="{% static 'imagenes/no_disponible.png' %}" alt="Imagen no disponible" class="active"> <!-- Imagen por defecto -->
+                            {% endif %}
+                            <!-- Aquí puedes agregar más imágenes si las tienes -->
+                            <img src="{% static 'imagenes/no_disponible.png' %}" alt="Imagen no disponible">
+                            <img src="{% static 'imagenes/no_disponible.png' %}" alt="Imagen no disponible">
+                        </div>
+                        <button class="carrusel-btn prev" onclick="prevImage()">&#10094;</button>
+                        <button class="carrusel-btn next" onclick="nextImage()">&#10095;</button>
+                    </div>
+                    <div class="habitacion-info">
+                        <h3>Habitación {{ habitacion.numero }}</h3>
+                        <p>Tipo: {{ habitacion.tipo }}</p>
+                        <p>{{ habitacion.descripcion }}</p>
+                        <p class="precio">Desde ${{ habitacion.precio_noche }} por noche</p>
+                        <p>Capacidad: {{ habitacion.capacidad }} personas</p>
+                        <ul class="amenities">
+                            <li>1 cama king o 2 camas twin</li>
+                            <li>Baño privado con box de ducha</li>
+                            <li>Sábanas de algodón egipcio de 220 hilos</li>
+                            <li>Aire acondicionado y calefacción individual</li>
+                            <li>TV Led 32" con TV cable</li>
+                            <li>Amenities de baño ecológicos</li>
+                            <li>Secador de Pelo</li>
+                            <li>Caja de seguridad electrónica</li>
+                            <li>Minibar</li>
+                            <li>WiFi sin cargo</li>
+                        </ul>
+                        <div class="habitacion-acciones">
+                            <a href="{% url 'detalle_habitacion' habitacion.id %}" class="btn">Ver Detalles</a>
+                            <a href="{% url 'reservar_habitacion' habitacion.id %}" class="btn">Reservar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-habitaciones">No hay habitaciones disponibles en este momento.</p>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    // Funciones para el carrusel
+    let currentIndex = 0;
+
+    function showImage(index) {
+        const images = document.querySelectorAll('.carrusel-imagenes img');
+        images.forEach((img, i) => {
+            img.classList.remove('active');
+            if (i === index) {
+                img.classList.add('active');
+            }
+        });
+    }
+
+    function nextImage() {
+        const images = document.querySelectorAll('.carrusel-imagenes img');
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }
+
+    function prevImage() {
+        const images = document.querySelectorAll('.carrusel-imagenes img');
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    }
+</script>
+
+{% endblock %}

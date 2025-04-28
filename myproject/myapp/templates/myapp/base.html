@@ -1,0 +1,202 @@
+<!-- templates/myapp/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hotel HS{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/habitaciones.js' %}" defer></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* Estilo para el navbar fijo */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+            z-index: 9999;
+        }
+
+        .navbar.default {
+            background-color: transparent; /* Fondo transparente por defecto */
+            color: white; /* Color del texto por defecto */
+            box-shadow: none;
+        }
+
+        .navbar.scrolled {
+            background-color: white; /* Fondo blanco al hacer scroll */
+            color: black; /* Color del texto al hacer scroll */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo para el texto grande */
+        .navbar-brand {
+            font-size: 2.5rem; /* Tamaño grande del texto */
+            transition: opacity 0.3s; /* Transición suave para la opacidad */
+        }
+
+        /* Estilo para la imagen de montaña */
+        .navbar .icon {
+            display: none; /* Ocultar la imagen por defecto */
+            width: 50px; /* Ajusta el ancho de la imagen */
+            height: auto; /* Mantener la proporción de la imagen */
+            transition: opacity 0.3s; /* Transición suave para la opacidad */
+        }
+
+        .navbar.scrolled .icon {
+            display: inline-block; /* Mostrar la imagen al hacer scroll */
+            opacity: 1; /* Asegurarse de que la imagen sea visible */
+        }
+
+        .navbar.scrolled .navbar-brand {
+            opacity: 0; /* Ocultar el texto al hacer scroll */
+        }
+
+        /* Efecto ::after en el navbar */
+        .navbar::after { 
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #404b78, #404b78);
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .navbar.scrolled::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark default" id="navbar">
+        <div class="container">
+            <!--   <a class="navbar-brand" href="{% url 'inicio' %}">Hotel HS</a> -->
+            <a href="{% url 'inicio' %}">
+                <img src="../../static/imagenes/icono_montaña.jpg" style="position: relative; left: -200px; width: 50px;" alt="Montaña" class="icon"> <!-- Imagen de montaña que aparecerá al hacer scroll -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'habitaciones' %}">Habitaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pabellones' %}">Pabellones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mis_reservas' %}">Mis Reservas</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div> 
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container py-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Hotel HS</h5>
+                    <p>Tu hogar lejos de casa</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'habitaciones' %}" class="text-white">Habitaciones</a></li>
+                        <li><a href="{% url 'pabellones' %}" class="text-white">Pabellones</a></li>
+                        <li><a href="{% url 'contacto' %}" class="text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p>
+                        <i class="fas fa-phone"></i> +123 456 789<br>
+                        <i class="fas fa-envelope"></i> info@hotelhs.com<br>
+                        <i class="fas fa-map-marker-alt"></i> Dirección del Hotel
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center py-3 border-top">
+            <p class="mb-0">&copy; {% now "Y" %} Hotel HS. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Script para manejar el efecto de cambio en el navbar al hacer scroll
+        window.onscroll = function() {
+            var navbar = document.getElementById("navbar");
+            var icon = document.querySelector(".icon");
+            if (window.pageYOffset > 5) {
+                navbar.classList.remove("default");
+                navbar.classList.add("scrolled");
+                icon.style.display = "inline-block"; // Mostrar la imagen
+            } else {
+                navbar.classList.remove("scrolled");
+                navbar.classList.add("default");
+                icon.style.display = "none"; // Ocultar la imagen
+            }
+        };
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
