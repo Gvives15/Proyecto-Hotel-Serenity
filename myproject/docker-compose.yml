@@ -1,27 +1,39 @@
-services:
-  db:
-    image: mariadb:10.6
-    restart: always
-    environment:
-      MYSQL_DATABASE: hotelserenity
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: rootpassword
-    ports:
-      - "3306:3306"
+version: "3.9"
 
+services:
   web:
+    container_name: Hotel_Serenity_web
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: /wait-for-it.sh db:3308 -- python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "8002:8000"
+    env_file:
+      - .env
     depends_on:
       - db
+    networks:
+      - Hotel_Serenity_backend
+
+  db:
+    image: mariadb:10.5
+    container_name: Hotel_Serenity_db
+    restart: always
     environment:
-      - DJANGO_SETTINGS_MODULE=myproject.settings
-      - DB_HOST=db
-      - DB_NAME=hotelserenity
-      - DB_USER=user
-      - DB_PASS=password
+      MYSQL_DATABASE: Hotel_Serenity
+      MYSQL_USER: german
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - Hotel_Serenity_mariadb_data:/var/lib/mysql
+    networks:
+      - Hotel_Serenity_backend
+
+networks:
+  Hotel_Serenity_backend:
+    name: Hotel_Serenity_backend
+
+volumes:
+  Hotel_Serenity_mariadb_data:
+    name: Hotel_Serenity_mariadb_data

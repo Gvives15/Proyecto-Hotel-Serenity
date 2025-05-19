@@ -20,15 +20,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_REDIRECT_URL = 'inicio'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@2y%*lu&o7_x063a3rw_^o&+259)t#3=ib7wcxmbq6tp=l+9fl'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -85,17 +76,24 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+import os
+from decouple import config
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'default_db_name'),
-        'USER': os.environ.get('DB_USER', 'default_user'),
-        'PASSWORD': os.environ.get('DB_PASS', 'default_password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': '3306',
+        'NAME': os.environ.get('MYSQL_DATABASE', 'Hotel_Serenity'),
+        'USER': os.environ.get('MYSQL_USER', 'german'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', '123456'),
+        'HOST': os.environ.get('DB_HOST', 'db'),  
+        'PORT': os.environ.get('DB_PORT', '3308'),
     }
-}
+    }
+
+DEBUG = config('DEBUG', cast=bool)
+SECRET_KEY = config('SECRET_KEY')
+FIELD_ENCRYPTION_KEY = config('FIELD_ENCRYPTION_KEY')
+
 
 
 

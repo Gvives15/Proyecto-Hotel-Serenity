@@ -1,0 +1,21 @@
+# Ignorar archivos Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignorar entornos virtuales
+venv/
+.env
+.envrc
+.env.local  
+wait-for-it.sh
+
+# Bases de datos locales
+*.db
+
+# Archivos de Docker (solo si no querés que lo copie en las imágenes, pero SÍ deben estar en GitHub)
+# (opcional, no borres docker-compose.yml ni Dockerfile de tu repo)
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

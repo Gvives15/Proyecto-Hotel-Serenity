@@ -1,0 +1,28 @@
+# Ignorar entornos virtuales
+venv/
+.env
+.envrc
+
+# Ignorar archivos compilados de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Ignorar archivos de sistema de Windows/Mac
+.DS_Store
+Thumbs.db
+
+# Opcional: ignorar carpetas o archivos que no quieras meter en el contenedor
+# Por ejemplo, documentación pesada, backups, etc.
+*.bak
+*.log
+logs/
+backups/
+
+# Importante: 
+# NO ignores Dockerfile ni docker-compose.yml aquí, porque son necesarios para construir la imagen

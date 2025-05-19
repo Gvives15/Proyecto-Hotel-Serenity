@@ -1,20 +1,24 @@
-# Usar la imagen oficial de Python
-FROM python:3.11
+FROM python:3.11-slim
 
-# Crear un directorio de trabajo dentro del contenedor
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Instalar dependencias de sistema
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    default-mysql-client \
+    pkg-config \
+    libmariadb-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Copiar solo requirements.txt primero
-COPY requirements.txt .
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
-# Instalar las dependencias
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copiar todo el proyecto al contenedor
-COPY . .
+COPY . /app/
 
-# Exponer el puerto 8000 para Django
-EXPOSE 8000
-
-# Comando para correr el servidor Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/wait-for-it.sh", "db:3306", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
